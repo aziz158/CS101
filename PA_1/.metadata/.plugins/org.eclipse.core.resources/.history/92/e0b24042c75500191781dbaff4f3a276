@@ -1,0 +1,85 @@
+import java.util.*;
+import java.lang.*;
+
+public class List {
+	
+	private class Node
+	{
+		int data;
+		Node next;
+		Node prev;
+		
+		Node(int data) 
+		{
+			this.data = data; 
+			Node next = null; 
+			Node prev = null;
+		}
+		
+	}
+	
+	private Node head;
+	private Node tail;
+	private int length;
+	
+	
+	List() {
+		this.head = null;
+		this.tail = null;
+		this.length = 0;
+	}
+		
+	int length(){ return this.length;}
+	int front() { return this.head.data;} 
+	int back() {return this.tail.data;}
+	boolean isEmpty() 
+	{
+		if(this.head == null && this.length == 0)
+			{return true;}
+		else{return false;}
+	}
+	
+	void append(int data)
+	{
+		if (this.isEmpty())
+		{
+			Node newNode = new Node(data);
+			this.head = newNode;
+			this.tail = newNode;
+			this.length += 1;
+		}
+		else
+		{
+			Node newNode = new Node(data);
+			this.tail.next = newNode;
+			this.tail = newNode;
+			this.length += 1;
+			System.out.print(this.tail.data);
+		}
+	}
+	
+	void prepend(int data)
+	{
+		if(this.isEmpty())
+		{
+			Node newNode = new Node(data);
+			this.head = newNode;
+			this.tail = newNode;
+			this.length += 1;
+		}
+		else
+		{
+			Node newNode = new Node(data);
+			this.head.prev = newNode;
+			this.head = newNode;
+			this.length += 1;
+		}
+		System.out.print(this.head.data);
+	}
+	
+	
+	
+	
+	
+	
+}

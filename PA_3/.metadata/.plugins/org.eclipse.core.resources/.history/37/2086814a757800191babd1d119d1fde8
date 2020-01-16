@@ -1,0 +1,10 @@
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+public class Sparse {
+	
+	/*File file = new File("input.txt");
+	Scanner scan = new Scanner(file);*/
+
+}

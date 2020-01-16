@@ -1,0 +1,44 @@
+
+import java.lang.*;
+import java.util.*;
+import java.io.*;
+
+public class Lex {
+	
+	private String filename;
+	private int numberofLines;
+	
+	Lex()
+	{
+		this.filename = null;
+	}
+	
+	Lex(String filename)
+	{
+		this.filename = filename;
+	}
+	
+	void NumberOfLines()
+	{
+    		
+		try{
+    		File file =new File("Macintosh HD⁩ ▸ ⁨Users⁩ ▸ ⁨aziz⁩ ▸ ⁨Documents⁩ ▸ ⁨CMPS_101_Spring⁩ ▸ ⁨PA_1⁩ ▸ ⁨PA_1⁩ ▸ ⁨src⁩");
+    		if(file.exists())
+    		{
+    		    FileReader fr = new FileReader(file);
+    		    LineNumberReader lnr = new LineNumberReader(fr);   
+    		    int n = 0;
+    		    
+    	            while (lnr.readLine() != null){n++;}  	 
+    	            System.out.println("Total number of lines : " + n);
+    	            lnr.close();
+    	            this.numberofLines =n;	     
+    		}
+    		else
+    		{System.out.println("File does not exists!");}
+    		
+    	}
+		catch(IOException e)
+		{e.printStackTrace();}
+	}
+}

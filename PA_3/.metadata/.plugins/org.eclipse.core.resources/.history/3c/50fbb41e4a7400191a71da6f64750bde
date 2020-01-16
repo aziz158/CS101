@@ -1,0 +1,299 @@
+
+public class Matrix {
+	
+	
+	
+	
+	/*boolean isZeroMatrix()
+	{
+		boolean ZeroMatrix = false;
+		for(int i = 0; i < this.size; i++)
+		{
+			for(int j = 0; j<this.size; j++)
+			{
+				if( this.L[i].)
+			}
+		}
+	}*/
+	
+	
+/*	void changeEntry(int i, int j, double x)
+	{	
+		Entry E = new Entry(j, x);
+		if(this.L[i-1].isEmpty() || this.L[i-1].length() < j)
+		{ this.L[i-1].append(E); }
+		else
+		{
+			this.L[i-1].moveFront();
+			for(int k = 1; k < j; k++)
+			{
+				this.L[i-1].moveNext();
+			}
+			this.L[i-1].insertBefore(E);
+			this.L[i-1].delete();
+		}
+	}
+	
+	
+	public String toString()
+	{
+		String temp = "";
+		for(int i = 0; i<this.size; i++)
+		{
+			temp += this.L[i].toString() + "\n";
+		}
+		return temp;
+	}
+	
+	Matrix scalarMult(double x)
+	{
+		Matrix N = new Matrix(this.size);
+		for(int i = 1; i <= this.size; i++)
+		{
+			this.L[i-1].moveFront();
+			for(int j = 1; j <= this.size; j++)
+			{
+				Entry e = (Entry)(this.L[i-1].get());
+				N.changeEntry(i, j, e.data*x);
+				this.L[i-1].moveNext();
+			}
+		}
+		return N;
+	}
+	
+	Matrix add(Matrix M)
+	{
+		Matrix N = new Matrix(this.size);
+		Entry e1, e2;
+		
+		for(int i = 1; i < this.size; i++)
+		{
+			this.L[i-1].moveFront();
+			M.L[i-1].moveFront();
+			System.out.print("Moved Front for row: ");
+			System.out.print(i);
+			System.out.println(" ");
+			for(int j = 1; j <= this.size; j++)
+			{
+				System.out.println(i);
+				System.out.println(j);
+				e1 = (Entry) this.L[i-1].get();
+				e2 = (Entry) M.L[i-1].get();
+				N.changeEntry(i, j, e1.data+e2.data);
+				this.L[i-1].moveNext();
+				M.L[i-1].moveNext();
+			}
+		}
+		
+		return N;
+	}*/
+	private class Entry
+	{	
+		int column;
+		double data;
+		
+		Entry(int col, double dat)
+		{
+			column = col;
+			data = dat;
+		}
+		
+		public String toString()
+		{
+			return "(" + String.valueOf(column) + ", " + String.valueOf(data)+ ")";
+		}
+		
+		public boolean equals(Object x)
+		{
+		    boolean eq  = false;
+		    Entry E;
+		    if(x instanceof Entry)
+		    {
+		        E = (Entry)x;
+		        eq = (this.column ==E.column && this.data == E.data);
+		    }
+		    return eq;
+		}
+		
+	}
+	
+	private int size;
+	private int NZNumbers;
+	private List[] row;
+
+	Matrix(int n)
+	{
+		row = new List[n];
+		for(int i=0; i<n; i++)
+		{
+			row[i] = new List();
+		}
+
+		this.size = n;
+	}
+	
+	int getSize()
+	{
+		return this.size;
+	}
+	
+	int getNNZ()
+	{
+		return this.NZNumbers;
+	}
+	
+	void changeEntry(int i, int j, double x)
+	{
+		if(x != 0)
+		{
+			Entry E = new Entry(j, x);
+			if(this.row[i-1].isEmpty() || this.row[i-1].length() < j)
+			{ this.row[i-1].append(E);}
+			else
+			{
+				this.row[i-1].moveFront();
+				for(int k = 1; k < j; k++)
+				{
+					this.row[i-1].moveNext();
+				}
+				this.row[i-1].insertBefore(E);
+				this.row[i-1].delete();
+			}
+		}
+	}
+	
+	public String toString()
+	{
+		String temp = "";
+		for(int i = 0; i < this.size; i++)
+		{
+			if(this.row[i].isEmpty()) break;
+			temp += String.valueOf(i+1) + ": " + this.row[i].toString() + "\n"; 
+		}
+		
+		return temp;
+	}
+	
+	
+	Matrix clear()
+	{
+		Matrix N = new Matrix(this.size);
+		
+		return N;
+	}
+	
+	
+	Matrix scalarMult(double x)
+	{
+		Matrix N = new Matrix(this.size);
+		if(x == 0)
+		{ return N = this.clear();}
+		else
+		{
+			for(int i = 0; i < this.size; i++)
+			{
+				this.row[i].moveFront();
+				for(int j = 0; j < this.row[i].length(); j++)
+				{
+					
+					Entry e =(Entry)(this.row[i].get());
+					N.changeEntry(i+1, j+1, e.data * x);
+					this.row[i].moveNext();
+				}
+			}
+			return N;
+		}
+	}
+	
+	List listAdd(List L, List M)
+	{
+		List N = new List();
+		L.moveFront();
+		M.moveFront();
+
+		for(int i = 0; i < L.length(); i++)
+		{
+			Entry e1 = (Entry) L.get();
+			Entry e2 = (Entry) M.get();
+			Entry e3 = new Entry(i+1, e1.data + e2.data);
+			N.append(e3);
+			L.moveNext();
+			M.moveNext();
+		}
+		return N;
+	}
+	
+	Matrix add(Matrix M)
+	{
+		Matrix N = new Matrix(this.size);
+		Entry e1, e2;
+		
+		if(this.equals(M))
+		{
+			N = M.scalarMult(2);
+		}
+		else
+		{
+			for (int i = 0; i < this.size; i++)
+			{
+				if(this.row[i].isEmpty())break;
+				N.row[i] = this.listAdd(this.row[i], M.row[i]);
+			}
+		}
+		return N;	
+	}
+	
+	public boolean equals(Object x){
+	      boolean eq  = false;
+	      Matrix M;
+	      Entry e1, e2;
+
+	      if(x instanceof Matrix)
+	      {
+	         M = (Matrix)x; 
+	         eq = (this.size==M.size);
+	         if(eq == false)
+	         {
+	        	 return eq;
+	         }
+	         
+	         for(int i = 0; i < this.size; i++)
+	         {
+	        	 if(this.row[i].isEmpty())break;
+	        	 this.row[i].moveFront();
+	        	 M.row[i].moveFront();
+	        	 e1 = (Entry)this.row[i].get();
+		         e2 = (Entry)M.row[i].get();
+		         
+		         while( eq && this.row[i].index()!=-1)
+		         {
+		            eq = e1.equals(e2);
+		            e1 = (Entry)this.row[i].get();
+		            e2 = (Entry)M.row[i].get();
+		            this.row[i].moveNext();
+		            M.row[i].moveNext();
+		         }
+		       
+	         
+	         }
+	      }
+	      return eq;
+	   }
+	
+	/*Matrix transpose()
+	{
+		Matrix N = new Matrix(this.size);
+		Entry e1;
+		for(int i = 0; i < this.size; i++)
+		{
+			e1 = (Entry) this.row[i].get();
+			for(int j = 0; j < this.size; j++)
+			{
+				N.row[i].append(data);
+			}
+		}
+		
+		
+		return N;
+	}*/
+}
